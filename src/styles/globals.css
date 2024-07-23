@@ -1,2 +1,13 @@
 @tailwind base;
 @tailwind components;
+@tailwind utilities;
+
+header::before {
+  background-color: rgb(54, 54, 54);
+  bottom: -1px;
+  content: "";
+  height: 1px;
+  left: 0;
+  position: absolute;
+  right: 0;
+}

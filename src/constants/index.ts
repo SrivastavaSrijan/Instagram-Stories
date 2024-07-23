@@ -15,8 +15,11 @@ export const AssetsConfig = {
   get stories() {
     return `${this.json}/stories.json`;
   },
-  get instagram() {
-    return `${this.assets}/logo.png`;
+  get icons() {
+    return `${this.assets}/icons`;
+  },
+  getIcon: function (path: string) {
+    return `${this.icons}/${path}.svg`;
   },
 };
 
