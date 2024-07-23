@@ -29,3 +29,7 @@ export const EndpointsConfig = {
     return `${this.root}/stories`;
   },
 };
+
+export const AppConfig = {
+  countdown: 3,
+};

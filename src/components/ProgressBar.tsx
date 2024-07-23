@@ -1,9 +1,43 @@
-import { motion } from 'framer-motion';
+import { useEffect } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 
-export const ProgressBar = ({ seconds }: { seconds: number }) => {
+const variants = {
+  full: {
+    width: '100%',
+  },
+  empty: {
+    width: '0%',
+  },
+};
+
+interface IProgressBarProps {
+  duration: number;
+  isActive: boolean;
+}
+
+export const ProgressBar = ({ duration, isActive }: IProgressBarProps) => {
+  const animate = useAnimation();
+
+  useEffect(() => {
+    if (isActive) {
+      animate.start('full');
+    } else {
+      animate.start('empty');
+    }
+  }, [isActive, animate]);
+
   return (
-    <div className="progress-bar">
-      <motion.div className="h-3 bg-purple-400 " style={{ scaleX: seconds }} />
+    <div className="bg-white/50">
+      <motion.div
+        animate={animate}
+        variants={variants}
+        initial="empty"
+        transition={{
+          duration: isActive ? duration : 0,
+          ease: 'linear',
+        }}
+        className="h-0.5 bg-white"
+      />
     </div>
   );
 };

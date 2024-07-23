@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { AssetsConfig } from '@/constants';
 import { IUserStory } from '@/interfaces';
 
-import { StoryViewer } from './StoryViewer';
+import { StoryOverlay } from './StoryOverlay';
 
 interface IStoryListProps {
   userStories: IUserStory[];
@@ -29,16 +29,30 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
                 height={64}
                 src={`${AssetsConfig.profiles}${profilePicture}`}
                 alt={username}
-                className="h-full w-full rounded-full object-cover"
+                className="aspect-square h-full w-full rounded-full object-cover"
               />
             </div>
             <p className="w-16 truncate text-xs text-white">{username?.toLowerCase()}</p>
             {currentStoryViewed === index && (
-              <StoryViewer
+              <StoryOverlay
+                initialIndex={0}
                 stories={stories}
                 onClose={handleStoryClicked(null)}
-                goToNext={handleStoryClicked(currentStoryViewed + 1)}
-              />
+                goToNext={handleStoryClicked((currentStoryViewed + 1) % userStories.length)}
+              >
+                <div className="flex flex-row items-center gap-2">
+                  <div className="h-8 w-8 rounded-full">
+                    <Image
+                      width={32}
+                      height={32}
+                      className="aspect-square rounded-full object-cover"
+                      src={`${AssetsConfig.profiles}${profilePicture}`}
+                      alt={username}
+                    />
+                  </div>
+                  <p className="text-xs text-white">{username?.toLowerCase()}</p>
+                </div>
+              </StoryOverlay>
             )}
           </div>
         ))}
