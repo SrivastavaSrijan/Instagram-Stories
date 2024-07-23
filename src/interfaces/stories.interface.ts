@@ -3,7 +3,7 @@ interface IStory {
   url: string;
 }
 
-export interface IUserProfile {
+export interface IUserStory {
   username: string;
   profilePicture: string;
   stories: IStory[];

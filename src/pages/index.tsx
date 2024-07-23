@@ -1,14 +1,10 @@
 import React from 'react';
 
-import { StoryList } from '@/components';
+import { HomePage } from '@/components';
 
-const HomePage = () => {
+const Index = () => {
   // TODO: Add state management for current story and pass it to StoryViewer
-  return (
-    <div className="home-page">
-      <StoryList />
-    </div>
-  );
+  return <HomePage />;
 };
 
-export default HomePage;
+export default Index;

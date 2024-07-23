@@ -1,1 +1,2 @@
-export * from './User.interface'
+export * from './common.interface';
+export * from './stories.interface';

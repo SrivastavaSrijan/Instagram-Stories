@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { IUserProfile } from '@/interfaces';
+import { IUserStory } from '@/interfaces';
 
 interface IStoryViewerProps {
-  stories: IUserProfile['stories'];
+  stories: IUserStory['stories'];
 }
 export const StoryViewer = ({ stories }: IStoryViewerProps) => {
   // TODO: Implement view, auto-advance logic and manual navigation

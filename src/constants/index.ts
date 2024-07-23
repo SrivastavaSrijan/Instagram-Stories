@@ -1,11 +1,28 @@
 export const AssetsConfig = {
-  json: '/json',
-  assets: '/assets',
-  get cats() {
-    return `${this.assets}/cats`;
+  root: '/public',
+  get json() {
+    return `${this.root}/json`;
   },
-
+  get assets() {
+    return `/assets`;
+  },
+  get cats() {
+    return `${this.assets}/cats/`;
+  },
+  get profiles() {
+    return `${this.assets}/profiles/`;
+  },
   get stories() {
     return `${this.json}/stories.json`;
+  },
+  get instagram() {
+    return `${this.assets}/logo.png`;
+  },
+};
+
+export const EndpointsConfig = {
+  root: '/api',
+  get stories() {
+    return `${this.root}/stories`;
   },
 };
