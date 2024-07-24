@@ -1,7 +1,7 @@
 export const AssetsConfig = {
   root: '/public',
   get json() {
-    return `/json`;
+    return `${this.root}/json`;
   },
   get assets() {
     return `instagram-stories/assets`;
