@@ -63,7 +63,7 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
   };
 
   return (
-    <div className="bg-grey- w-full px-5 py-4">
+    <div className="w-full px-2 py-4 sm:px-3 md:px-5">
       <div className="flex gap-4 overflow-x-auto">
         {userStories.length === 0 && <p className="text-white">No stories available</p>}
         {userStories.map(({ profilePicture, username }, index) => (
