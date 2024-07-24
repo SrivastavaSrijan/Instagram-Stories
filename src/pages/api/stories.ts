@@ -8,9 +8,7 @@ import { AssetsConfig } from '@/constants';
 import { IData, IUserStory } from '@/interfaces';
 
 const filePath = path.join(
-  ...(process.env.NODE_ENV === 'development'
-    ? [process.cwd(), AssetsConfig.root]
-    : [process.env.NEXT_PUBLIC_BASE_URL ?? '']),
+  ...(process.env.NODE_ENV === 'development' ? [process.cwd(), AssetsConfig.root] : ['/..']),
   AssetsConfig.stories,
 );
 export default function handler(req: NextApiRequest, res: NextApiResponse<IData<IUserStory[]>>) {
