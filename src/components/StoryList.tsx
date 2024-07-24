@@ -65,6 +65,7 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
   return (
     <div className="bg-grey- w-full px-5 py-4">
       <div className="flex gap-4 overflow-x-auto">
+        {userStories.length === 0 && <p className="text-white">No stories available</p>}
         {userStories.map(({ profilePicture, username }, index) => (
           <div className="flex-shrink-0 cursor-pointer" key={index}>
             <button
