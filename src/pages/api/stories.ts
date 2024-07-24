@@ -7,7 +7,11 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { AssetsConfig } from '@/constants';
 import { IData, IUserStory } from '@/interfaces';
 
-const filePath = path.join(process.cwd(), AssetsConfig.stories);
+const filePath = path.join(
+  process.env.NODE_ENV === 'development' ? process.cwd() : '',
+  process.env.NODE_ENV === 'development' ? AssetsConfig.root : '',
+  AssetsConfig.stories,
+);
 export default function handler(req: NextApiRequest, res: NextApiResponse<IData<IUserStory[]>>) {
   const jsonData = fs.readFileSync(filePath, 'utf-8');
   const userProfiles: IUserStory[] = JSON.parse(jsonData);
