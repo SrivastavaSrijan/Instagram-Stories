@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import { useTimer } from 'react-timer-hook';
 
-import { CldImage } from 'next-cloudinary';
-
 import { AppConfig, AssetsConfig } from '@/constants';
 
+import { ImageShimmer } from './ImageShimmer';
 import { ProgressBar } from './ProgressBar';
 
 interface Story {
@@ -81,7 +80,7 @@ export const StoryOverlay = ({
           </div>
         </div>
         <div className="relative flex h-full w-full items-center justify-center">
-          <CldImage
+          <ImageShimmer
             fill
             src={`${AssetsConfig.cats}${stories[currentIndex].url}`}
             alt={`Story ${currentIndex + 1}`}

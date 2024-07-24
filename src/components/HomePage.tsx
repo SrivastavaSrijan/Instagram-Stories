@@ -34,9 +34,9 @@ export const HomePage = () => {
           </div>
         </div>
       </header>
-      <main className="flex w-full flex-grow flex-col">
+      <div className="flex w-full flex-grow flex-col">
         <StoryList userStories={userStories} />
-      </main>
+      </div>
     </div>
   );
 };

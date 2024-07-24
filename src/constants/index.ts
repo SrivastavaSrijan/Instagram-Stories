@@ -34,5 +34,5 @@ export const EndpointsConfig = {
 };
 
 export const AppConfig = {
-  countdown: 3,
+  countdown: 30,
 };
