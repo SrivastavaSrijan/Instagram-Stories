@@ -76,7 +76,7 @@ export const StoryOverlay = ({
       exit="exit"
       className="fixed left-0 top-0 z-10 flex items-center justify-center"
     >
-      <div className="fixed inset-0 z-10 flex h-screen w-screen  items-center justify-center bg-black bg-opacity-75">
+      <div className="fixed inset-0 z-10 flex h-screen w-screen max-w-screen-sm items-center justify-center bg-black bg-opacity-75">
         <div className="relative h-full w-full">
           <div className="absolute top-0 z-50  flex w-full flex-col gap-4 p-3 backdrop-blur-sm backdrop-brightness-90">
             <div className="flex flex-row gap-1">
