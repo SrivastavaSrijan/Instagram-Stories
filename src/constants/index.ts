@@ -4,6 +4,9 @@ export const AssetsConfig = {
     return `${this.root}/json`;
   },
   get assets() {
+    return `instagram-stories/assets`;
+  },
+  get local_assets() {
     return `/assets`;
   },
   get cats() {
@@ -16,7 +19,7 @@ export const AssetsConfig = {
     return `${this.json}/stories.json`;
   },
   get icons() {
-    return `${this.assets}/icons`;
+    return `${this.local_assets}/icons`;
   },
   getIcon: function (path: string) {
     return `${this.icons}/${path}.svg`;

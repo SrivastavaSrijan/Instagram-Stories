@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 
 import { AssetsConfig } from '@/constants';
 import { IUserStory } from '@/interfaces';
@@ -24,7 +24,7 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
               className="relative inline-block h-16 w-16 items-center justify-center  rounded-full bg-gray-300 bg-gradient-to-tr from-[#F9CE34] via-[#EE2A7B] to-[#6228D7] p-[2px]"
               onClick={handleStoryClicked(index)}
             >
-              <Image
+              <CldImage
                 width={64}
                 height={64}
                 src={`${AssetsConfig.profiles}${profilePicture}`}
@@ -42,7 +42,7 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
               >
                 <div className="flex flex-row items-center gap-2">
                   <div className="h-8 w-8 rounded-full">
-                    <Image
+                    <CldImage
                       width={32}
                       height={32}
                       className="aspect-square rounded-full object-cover"

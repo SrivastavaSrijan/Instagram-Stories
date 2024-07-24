@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import { useTimer } from 'react-timer-hook';
 
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 
 import { AppConfig, AssetsConfig } from '@/constants';
 
@@ -81,10 +81,10 @@ export const StoryOverlay = ({
           </div>
         </div>
         <div className="relative flex h-full w-full items-center justify-center">
-          <Image
+          <CldImage
+            fill
             src={`${AssetsConfig.cats}${stories[currentIndex].url}`}
             alt={`Story ${currentIndex + 1}`}
-            layout="fill"
             className="z-20 aspect-[9/16] max-h-full max-w-full select-none object-cover"
           />
         </div>
