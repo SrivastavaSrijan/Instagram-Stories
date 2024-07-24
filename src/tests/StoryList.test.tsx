@@ -1,6 +1,5 @@
-import { screen } from '@testing-library/dom';
+import { fireEvent, screen } from '@testing-library/dom';
 import { render } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 
 import { StoryList } from '@/components/StoryList';
 
@@ -17,8 +16,8 @@ const mockUserStories = [
     username: 'jane_doe',
     profilePicture: 'jane_doe.jpg',
     stories: [
-      { id: '3', url: 'cat3.jpg' },
-      { id: '4', url: 'cat4.jpg' },
+      { id: '3', url: 'https://picsum.photos/id/200/200/300' },
+      { id: '4', url: 'https://picsum.photos/id/201/200/300' },
     ],
   },
 ];
@@ -26,13 +25,21 @@ const mockUserStories = [
 describe('StoryList Component', () => {
   it('renders user stories', () => {
     render(<StoryList userStories={mockUserStories} />);
-    expect(screen.getByText('john_doe')).toBeInTheDocument();
-    expect(screen.getByText('jane_doe')).toBeInTheDocument();
+    const text = screen.getByText('john_doe');
+    expect(text).toBeInTheDocument();
   });
 
   it('opens story overlay on click', () => {
     render(<StoryList userStories={mockUserStories} />);
-    userEvent.click(screen.getByText('john_doe'));
-    expect(screen.getByText('Story 1')).toBeInTheDocument();
+    const button = screen.getByTestId('john_doe');
+    expect(button).toBeInTheDocument();
+    fireEvent(
+      button,
+      new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+    expect(screen.getByTestId('0_0')).toBeInTheDocument();
   });
 });

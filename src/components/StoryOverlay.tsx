@@ -69,6 +69,7 @@ export const StoryOverlay = ({
 
   return (
     <motion.div
+      data-testid={currentIndex + '_' + currentUserIndex}
       variants={AnimationConfig.onUserClicked}
       initial="initial"
       animate="animate"

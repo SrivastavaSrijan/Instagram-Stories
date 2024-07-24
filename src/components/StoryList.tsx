@@ -67,7 +67,8 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
       <div className="flex gap-4 overflow-x-auto">
         {userStories.map(({ profilePicture, username }, index) => (
           <div className="flex-shrink-0 cursor-pointer" key={index}>
-            <div
+            <button
+              data-testid={username}
               className="relative z-0 inline-block h-16 w-16 items-center justify-center  rounded-full bg-gray-300 bg-gradient-to-tr from-[#F9CE34] via-[#EE2A7B] to-[#6228D7] p-[2px]"
               onClick={handleStoryClicked(index)}
             >
@@ -80,7 +81,7 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
                   className="aspect-square h-full w-full rounded-full object-cover"
                 />
               </div>
-            </div>
+            </button>
             <p className="w-16 truncate text-center text-xs text-white">
               {username?.toLowerCase()}
             </p>
