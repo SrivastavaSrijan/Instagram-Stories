@@ -8,7 +8,7 @@ const Index = () => {
     <div>
       <title>Instagram</title>
       <div className="flex min-h-screen w-full justify-center  bg-gray-900">
-        <div className="min-w-80 max-w-sm bg-black">
+        <div className="min-w-96 max-w-sm bg-black">
           <HomePage />
         </div>
       </div>

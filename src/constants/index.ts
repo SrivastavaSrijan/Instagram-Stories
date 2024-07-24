@@ -27,9 +27,9 @@ export const AssetsConfig = {
 };
 
 export const EndpointsConfig = {
-  root: '/api',
+  root: 'https://api.npoint.io',
   get stories() {
-    return `${this.root}/stories`;
+    return `${this.root}/${process.env.NEXT_PUBLIC_API_STORIES}`;
   },
 };
 
