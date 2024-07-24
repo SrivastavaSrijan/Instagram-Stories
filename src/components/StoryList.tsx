@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 
 import { AssetsConfig } from '@/constants';
 import { IUserStory } from '@/interfaces';
@@ -10,11 +10,58 @@ import { StoryOverlay } from './StoryOverlay';
 interface IStoryListProps {
   userStories: IUserStory[];
 }
+
 export const StoryList = ({ userStories }: IStoryListProps) => {
-  const [currentStoryViewed, setCurrentStoryViewed] = useState<number | null>(null);
+  const [currentUserIndex, setCurrentUserIndex] = useState<number | null>(null);
+  const [currentStoryIndices, setCurrentStoryIndices] = useState<Record<number, number>>({});
+
   const handleStoryClicked = (selectedIndex: number | null) => () => {
-    setCurrentStoryViewed(selectedIndex);
+    setCurrentUserIndex(selectedIndex);
   };
+
+  const handleNext = () => {
+    if (currentUserIndex === null) return;
+
+    const currentStories = userStories[currentUserIndex].stories;
+    const currentStoryIndex = currentStoryIndices[currentUserIndex] ?? 0;
+
+    if (currentStoryIndex + 1 < currentStories.length) {
+      setCurrentStoryIndices({ ...currentStoryIndices, [currentUserIndex]: currentStoryIndex + 1 });
+    } else {
+      const nextUserIndex = currentUserIndex + 1;
+      if (nextUserIndex < userStories.length) {
+        setCurrentUserIndex(nextUserIndex);
+        setCurrentStoryIndices({ ...currentStoryIndices, [nextUserIndex]: 0 });
+      } else {
+        setCurrentUserIndex(null);
+      }
+    }
+  };
+
+  const handlePrev = () => {
+    if (currentUserIndex === null) return;
+
+    const currentStoryIndex = currentStoryIndices[currentUserIndex] ?? 0;
+
+    if (currentStoryIndex > 0) {
+      setCurrentStoryIndices({
+        ...currentStoryIndices,
+        [currentUserIndex]: currentStoryIndex - 1,
+      });
+    } else {
+      const prevUserIndex = currentUserIndex - 1;
+      if (prevUserIndex >= 0) {
+        setCurrentUserIndex(prevUserIndex);
+        setCurrentStoryIndices({
+          ...currentStoryIndices,
+          [prevUserIndex]: userStories[prevUserIndex].stories.length - 1,
+        });
+      } else {
+        setCurrentUserIndex(null);
+      }
+    }
+  };
+
   return (
     <div className="bg-grey- w-full px-5 py-4">
       <div className="flex gap-4 overflow-x-auto">
@@ -41,42 +88,32 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
         ))}
       </div>
 
-      <AnimatePresence mode="sync">
-        {currentStoryViewed !== null && userStories[currentStoryViewed] && (
-          <motion.div
-            key={currentStoryViewed}
-            initial={{ scale: 0.8, opacity: 0.9, x: '-50%', y: '-50%' }}
-            animate={{ scale: 1, opacity: 1, x: '-50%', y: '-50%' }}
-            transition={{
-              type: 'spring',
-              stiffness: 300,
-              damping: 30,
-              opacity: { duration: 0.2 },
-              scale: { duration: 0.2 },
-            }}
-            exit={{ scale: 0.8, opacity: 0, x: '-50%', y: '-50%' }}
-            className="fixed left-0 top-0 z-50 flex items-center justify-center"
+      <AnimatePresence>
+        {currentUserIndex !== null && userStories[currentUserIndex] && (
+          <StoryOverlay
+            currentUserIndex={currentUserIndex}
+            currentIndex={currentStoryIndices[currentUserIndex] ?? 0}
+            setCurrentIndex={(indexToSet: number) =>
+              setCurrentStoryIndices({ ...currentStoryIndices, [currentUserIndex]: indexToSet })
+            }
+            stories={userStories[currentUserIndex].stories ?? []}
+            onClose={handleStoryClicked(null)}
+            onNext={handleNext}
+            onPrev={handlePrev}
           >
-            <StoryOverlay
-              initialIndex={0}
-              stories={userStories[currentStoryViewed].stories ?? []}
-              onClose={handleStoryClicked(null)}
-              goToNext={handleStoryClicked((currentStoryViewed + 1) % userStories.length)}
-            >
-              <div className="flex flex-row items-center gap-2">
-                <div className="h-8 w-8 rounded-full">
-                  <ImageShimmer
-                    width={32}
-                    height={32}
-                    className="aspect-square rounded-full object-cover"
-                    src={`${AssetsConfig.profiles}${userStories[currentStoryViewed].profilePicture}`}
-                    alt={userStories[currentStoryViewed].username}
-                  />
-                </div>
-                <p className="text-xs text-white">{userStories[currentStoryViewed].username}</p>
+            <div className="flex flex-row items-center gap-2">
+              <div className="h-8 w-8 rounded-full">
+                <ImageShimmer
+                  width={32}
+                  height={32}
+                  className="aspect-square rounded-full object-cover"
+                  src={`${AssetsConfig.profiles}${userStories[currentUserIndex].profilePicture}`}
+                  alt={userStories[currentUserIndex].username}
+                />
               </div>
-            </StoryOverlay>
-          </motion.div>
+              <p className="text-xs text-white">{userStories[currentUserIndex].username}</p>
+            </div>
+          </StoryOverlay>
         )}
       </AnimatePresence>
     </div>

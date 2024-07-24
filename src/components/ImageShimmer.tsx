@@ -41,6 +41,7 @@ export const ImageShimmer = ({
 }: IImageShimmerProps) => {
   return (
     <CldImage
+      draggable="false"
       alt={alt}
       src={src}
       {...(fill ? { fill: true } : { width, height })}

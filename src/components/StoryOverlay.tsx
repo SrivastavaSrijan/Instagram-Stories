@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect } from 'react';
 import { ReactSVG } from 'react-svg';
 import { useTimer } from 'react-timer-hook';
+import { AnimatePresence, motion } from 'framer-motion';
 
-import { AppConfig, AssetsConfig } from '@/constants';
+import { AnimationConfig, AppConfig, AssetsConfig } from '@/constants';
 
 import { ImageShimmer } from './ImageShimmer';
 import { ProgressBar } from './ProgressBar';
@@ -14,88 +15,107 @@ interface Story {
 
 interface IStoryOverlayProps {
   stories: Story[];
-  initialIndex: number;
+  currentIndex: number;
+  currentUserIndex: number;
+  setCurrentIndex: (index: number) => void;
   onClose: () => void;
-  goToNext: () => void;
+  onNext: () => void;
+  onPrev: () => void;
   children: React.ReactNode;
 }
 
 export const StoryOverlay = ({
   stories,
-  initialIndex,
+  currentIndex,
+  setCurrentIndex,
   onClose,
-  goToNext,
+  onNext,
+  onPrev,
+  currentUserIndex,
   children,
 }: IStoryOverlayProps) => {
-  const [currentIndex, setCurrentIndex] = useState(initialIndex);
   const onExpire = () => {
     if (currentIndex + 1 < stories.length) {
-      setCurrentIndex((prevIndex) => prevIndex + 1);
+      setCurrentIndex(currentIndex + 1);
       const date = new Date();
       date.setSeconds(date.getSeconds() + AppConfig.countdown);
       restart(date, false);
     } else {
-      goToNext();
+      onNext();
     }
   };
 
-  const { seconds, restart } = useTimer({
+  const { restart } = useTimer({
     expiryTimestamp: new Date(),
     autoStart: false,
     onExpire,
   });
 
+  const handleTap = (e: MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    if (x < rect.width * 0.2) {
+      onPrev();
+    } else if (x > rect.width * 0.8) {
+      onNext();
+    }
+  };
+
   useEffect(() => {
     const date = new Date();
     date.setSeconds(date.getSeconds() + AppConfig.countdown); // Set timer for 3 seconds
     restart(date, true);
-  }, [currentIndex, restart]);
-
-  const handleNext = () => {
-    setCurrentIndex((currentIndex + 1) % stories.length);
-  };
-  console.log(seconds, currentIndex);
-
-  const handlePrev = () => {
-    setCurrentIndex((currentIndex - 1 + stories.length) % stories.length);
-  };
+  }, [currentIndex, currentUserIndex, restart]);
 
   return (
-    <div className="fixed inset-0 z-10 flex h-screen w-screen max-w-sm items-center justify-center bg-black bg-opacity-75">
-      <div className="relative h-full w-full">
-        <div className="absolute top-0 z-50  flex w-full flex-col gap-4 p-3 backdrop-blur-md">
-          {/* <ProgressBar width={seconds} /> */}
-          <div className="flex flex-row gap-1">
-            {stories.map((_, index) => (
-              <div key={index} className="flex-grow">
-                <ProgressBar duration={AppConfig.countdown} isActive={currentIndex === index} />
+    <motion.div
+      variants={AnimationConfig.onUserClicked}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      className="fixed left-0 top-0 z-10 flex items-center justify-center"
+    >
+      <div className="fixed inset-0 z-10 flex h-screen w-screen max-w-sm items-center justify-center bg-black bg-opacity-75">
+        <div className="relative h-full w-full">
+          <div className="absolute top-0 z-50  flex w-full flex-col gap-4 p-3 backdrop-blur-sm backdrop-brightness-90">
+            <div className="flex flex-row gap-1">
+              {stories.map((_, index) => (
+                <div key={index} className="flex-grow">
+                  <ProgressBar duration={AppConfig.countdown} isActive={currentIndex === index} />
+                </div>
+              ))}
+            </div>
+            <div className="flex w-full flex-row justify-between">
+              {children}
+              <button onClick={onClose} className=" text-white">
+                <ReactSVG src={AssetsConfig.getIcon('close')} />
+              </button>
+            </div>
+          </div>
+          <AnimatePresence mode="sync">
+            <motion.div
+              key={currentIndex + '_' + currentUserIndex}
+              variants={AnimationConfig.onStoryChange}
+              initial="initial"
+              animate="animate"
+              exit="exit"
+              className="relative z-20 flex h-full w-full"
+            >
+              <div
+                onClick={handleTap}
+                className="relative flex h-full w-full touch-none items-center justify-center"
+              >
+                <ImageShimmer
+                  fill
+                  src={`${AssetsConfig.cats}${stories[currentIndex].url}`}
+                  alt={`Story ${currentIndex + 1}`}
+                  className="z-20 aspect-[9/16] max-h-full max-w-full select-none object-cover"
+                />
               </div>
-            ))}
-          </div>
-          <div className="flex w-full flex-row justify-between">
-            {children}
-            <button onClick={onClose} className=" text-white">
-              <ReactSVG src={AssetsConfig.getIcon('close')} />
-            </button>
-          </div>
-        </div>
-        <div className="relative flex h-full w-full items-center justify-center">
-          <ImageShimmer
-            fill
-            src={`${AssetsConfig.cats}${stories[currentIndex].url}`}
-            alt={`Story ${currentIndex + 1}`}
-            className="z-20 aspect-[9/16] max-h-full max-w-full select-none object-cover"
-          />
-        </div>
-        <div className="absolute bottom-4 left-1/2 z-50 flex -translate-x-1/2 transform space-x-4">
-          <button onClick={handlePrev} className="text-white">
-            Prev
-          </button>
-          <button onClick={handleNext} className="text-white">
-            Next
-          </button>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
