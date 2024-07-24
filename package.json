@@ -10,9 +10,6 @@
     "test": "jest",
     "test:watch": "jest --watch"
   },
-  "resolutions": {
-    "jackspeak": "2.1.1"
-  },
   "dependencies": {
     "@next/font": "14.2.5",
     "@types/node": "20.14.11",
