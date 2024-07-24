@@ -107,6 +107,7 @@ export const StoryOverlay = ({
               >
                 <ImageShimmer
                   fill
+                  sizes="50vw"
                   src={`${AssetsConfig.cats}${stories[currentIndex].url}`}
                   alt={`Story ${currentIndex + 1}`}
                   className="z-20 aspect-[9/16] max-h-full max-w-full select-none object-cover"

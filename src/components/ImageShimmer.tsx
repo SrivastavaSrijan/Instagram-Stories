@@ -28,6 +28,7 @@ interface IImageShimmerProps {
   src: string;
   alt: string;
   fill?: boolean;
+  sizes?: string;
   className?: string;
 }
 
@@ -37,6 +38,7 @@ export const ImageShimmer = ({
   alt,
   src,
   className = '',
+  sizes = '',
   fill = false,
 }: IImageShimmerProps) => {
   return (
@@ -44,7 +46,7 @@ export const ImageShimmer = ({
       draggable="false"
       alt={alt}
       src={src}
-      {...(fill ? { fill: true } : { width, height })}
+      {...(fill ? { fill: true, sizes } : { width, height })}
       placeholder={`data:image/svg+xml;base64,${toBase64(shimmer(width, height))}`}
       className={className.concat(fill ? ' absolute inset-0 h-full w-full' : '')}
     />
