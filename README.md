@@ -1,38 +1,72 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Instagram Stories Clone
 
-First, run the development server:
+## Overview
+This project is a clone of the Instagram Stories feature, built using Next.js, TypeScript, and TailwindCSS. The application is designed for mobile use and provides a horizontally scrollable list of user stories fetched from a backend API. Users can view stories, navigate manually, and see smooth transitions between stories.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+## Features
+- **Mobile-Only**: The feature is optimized for mobile devices.
+- **Horizontally Scrollable Stories**: Stories are displayed in a horizontally scrollable view.
+- **Backend API**: Story data is served from a backend API.
+- **Automatic and Manual Navigation**: Stories advance automatically after a set duration with manual controls for navigation.
+- **Animations**: Smooth animations are used for transitions and UI interactions.
+- **TypeScript**: The project is fully typed using TypeScript.
+- **Testing**: Basic tests are implemented using Jest and Testing Library.
+- **CI/CD**: Continuous integration and delivery pipelines are set up to run tests on every push.
 
+## Setup and Running Instructions
+### Prerequisites
+- Node.js (v18.18.2 or later)
+- npm or yarn (v1.22.22)
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/instagram-stories.git
+   cd instagram-stories
+   ```
+
+2. Install dependencies:
+   ```bash
+   yarn install
+   ```
+
+3. Create a `.env` file in the root directory and add your environment variables:
+   ```env
+   NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=daprs0abn
+   ```
+
+### Running the Development Server
+  ```bash
+  yarn dev
+  ```
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## Explanation of Design Choices
+- **Next.js**: Chosen for its server-side rendering capabilities, API routes, and overall performance.
+- **TypeScript**: Provides static typing, enhancing code quality and maintainability.
+- **TailwindCSS**: Utilized for rapid and efficient styling.
+- **Framer Motion**: Used for animations to enhance user experience.
+- **React-Timer-Hook**: Simplifies the implementation of timers for story transitions.
+- **Jest and Testing Library**: For comprehensive testing of components and interactions.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Assumptions Made During Implementation
+- The app is primarily designed for mobile devices.
+- Users will interact with stories similar to Instagram’s UX patterns (taps, swipes).
+- JSON data for stories is pre-fetched and paginated on the server side.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## Running Tests
+```bash
+npm run test
+# or
+yarn test
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## CI/CD
+- The project is set up with GitHub Actions for CI/CD. Tests are automatically run on every push to the repository.
 
-## Learn More
+## Contributing
+If you would like to contribute, please open a pull request with a clear description of the changes.
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## License
+This project is licensed under the MIT License.
