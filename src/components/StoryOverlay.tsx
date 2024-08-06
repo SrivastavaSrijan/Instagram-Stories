@@ -118,7 +118,7 @@ export const StoryOverlay = ({
               <div
                 data-testid={['overlay-inner', currentUserIndex, currentIndex].join('_')}
                 className="relative flex h-full w-full items-center justify-center"
-                onClick={hasStoryLoaded ? handleTap : undefined}
+                onClick={handleTap}
               >
                 <ImageShimmer
                   fill
