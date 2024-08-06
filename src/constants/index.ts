@@ -3,17 +3,8 @@ export const AssetsConfig = {
   get json() {
     return `${this.root}/json`;
   },
-  get assets() {
-    return `instagram-stories/assets`;
-  },
   get local_assets() {
     return `/assets`;
-  },
-  get cats() {
-    return `${this.assets}/cats/`;
-  },
-  get profiles() {
-    return `${this.assets}/profiles/`;
   },
   get stories() {
     return `${this.json}/stories.json`;
@@ -27,9 +18,9 @@ export const AssetsConfig = {
 };
 
 export const EndpointsConfig = {
-  root: 'https://api.npoint.io',
+  root: '/api',
   get stories() {
-    return `${this.root}/${process.env.NEXT_PUBLIC_API_STORIES}`;
+    return `${this.root}/home`;
   },
 };
 
@@ -63,15 +54,15 @@ export const AnimationConfig = {
     animate: {
       opacity: 1,
       transition: {
-        duration: 0.3,
-        delay: 0.2,
+        duration: 0.1,
+        delay: 0.1,
         ease: [0.42, 0, 0.58, 1],
       },
     },
     exit: {
-      opacity: 0,
+      opacity: 0.8,
       transition: {
-        duration: 0.3,
+        duration: 0.1,
         ease: [0.42, 0, 0.58, 1],
       },
     },

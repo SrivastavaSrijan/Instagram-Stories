@@ -1,24 +1,25 @@
 import React, { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 
-import { AssetsConfig } from '@/constants';
-import { IUserStory } from '@/interfaces';
+import { IUserData } from '@/interfaces';
 
 import { ImageShimmer } from './ImageShimmer';
 import { StoryOverlay } from './StoryOverlay';
 
 interface IStoryListProps {
-  userStories: IUserStory[];
+  userStories: IUserData[];
 }
 
 export const StoryList = ({ userStories }: IStoryListProps) => {
   const [currentUserIndex, setCurrentUserIndex] = useState<number | null>(null);
   const [currentStoryIndices, setCurrentStoryIndices] = useState<Record<number, number>>({});
 
+  // Handle story button click to open the story overlay for the selected user
   const handleStoryClicked = (selectedIndex: number | null) => () => {
     setCurrentUserIndex(selectedIndex);
   };
 
+  // Handle the logic for moving to the next story
   const handleNext = () => {
     if (currentUserIndex === null) return;
 
@@ -33,11 +34,12 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
         setCurrentUserIndex(nextUserIndex);
         setCurrentStoryIndices({ ...currentStoryIndices, [nextUserIndex]: 0 });
       } else {
-        setCurrentUserIndex(null);
+        setCurrentUserIndex(null); // Close the overlay if there are no more stories
       }
     }
   };
 
+  // Handle the logic for moving to the previous story
   const handlePrev = () => {
     if (currentUserIndex === null) return;
 
@@ -57,7 +59,7 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
           [prevUserIndex]: userStories[prevUserIndex].stories.length - 1,
         });
       } else {
-        setCurrentUserIndex(null);
+        setCurrentUserIndex(null); // Close the overlay if there are no more stories
       }
     }
   };
@@ -70,14 +72,14 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
           <div className="flex-shrink-0 cursor-pointer" key={index}>
             <button
               data-testid={username}
-              className="relative z-0 inline-block h-16 w-16 items-center justify-center  rounded-full bg-gray-300 bg-gradient-to-tr from-[#F9CE34] via-[#EE2A7B] to-[#6228D7] p-[2px]"
+              className="relative z-0 inline-block h-16 w-16 items-center justify-center rounded-full bg-gray-300 bg-gradient-to-tr from-[#F9CE34] via-[#EE2A7B] to-[#6228D7] p-[2px]"
               onClick={handleStoryClicked(index)}
             >
               <div className="rounded-full bg-black p-[3px]">
                 <ImageShimmer
                   width={59}
                   height={59}
-                  src={`${AssetsConfig.profiles}${profilePicture}`}
+                  src={`${profilePicture}`}
                   alt={username}
                   className="aspect-square h-full w-full rounded-full object-cover"
                 />
@@ -109,7 +111,7 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
                   width={32}
                   height={32}
                   className="aspect-square rounded-full object-cover"
-                  src={`${AssetsConfig.profiles}${userStories[currentUserIndex].profilePicture}`}
+                  src={`${userStories[currentUserIndex].profilePicture}`}
                   alt={userStories[currentUserIndex].username}
                 />
               </div>
