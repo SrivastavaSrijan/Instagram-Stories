@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useCallback, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 
 import { IUserData } from '@/interfaces';
@@ -10,17 +10,18 @@ interface IStoryListProps {
   userStories: IUserData[];
 }
 
-export const StoryList = ({ userStories }: IStoryListProps) => {
+const StoryListComponent = ({ userStories }: IStoryListProps) => {
   const [currentUserIndex, setCurrentUserIndex] = useState<number | null>(null);
   const [currentStoryIndices, setCurrentStoryIndices] = useState<Record<number, number>>({});
 
-  // Handle story button click to open the story overlay for the selected user
-  const handleStoryClicked = (selectedIndex: number | null) => () => {
-    setCurrentUserIndex(selectedIndex);
-  };
+  const handleStoryClicked = useCallback(
+    (selectedIndex: number | null) => () => {
+      setCurrentUserIndex(selectedIndex);
+    },
+    [],
+  );
 
-  // Handle the logic for moving to the next story
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentUserIndex === null) return;
 
     const currentStories = userStories[currentUserIndex].stories;
@@ -34,13 +35,12 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
         setCurrentUserIndex(nextUserIndex);
         setCurrentStoryIndices({ ...currentStoryIndices, [nextUserIndex]: 0 });
       } else {
-        setCurrentUserIndex(null); // Close the overlay if there are no more stories
+        setCurrentUserIndex(null);
       }
     }
-  };
+  }, [currentUserIndex, currentStoryIndices, userStories]);
 
-  // Handle the logic for moving to the previous story
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (currentUserIndex === null) return;
 
     const currentStoryIndex = currentStoryIndices[currentUserIndex] ?? 0;
@@ -59,15 +59,14 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
           [prevUserIndex]: userStories[prevUserIndex].stories.length - 1,
         });
       } else {
-        setCurrentUserIndex(null); // Close the overlay if there are no more stories
+        setCurrentUserIndex(null);
       }
     }
-  };
+  }, [currentUserIndex, currentStoryIndices, userStories]);
 
   return (
     <div className="w-full px-2 py-4 sm:px-3 md:px-5">
       <div className="flex gap-4 overflow-x-auto">
-        {userStories.length === 0 && <p className="text-white">No stories available</p>}
         {userStories.map(({ profilePicture, username }, index) => (
           <div className="flex-shrink-0 cursor-pointer" key={index}>
             <button
@@ -123,3 +122,5 @@ export const StoryList = ({ userStories }: IStoryListProps) => {
     </div>
   );
 };
+
+export const StoryList = memo(StoryListComponent);

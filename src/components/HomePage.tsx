@@ -12,13 +12,15 @@ export const HomePage = () => {
   const [userStories, setUserStories] = useState<IUserData[]>([]);
 
   useEffect(() => {
-    (async () => {
+    const getStories = async () => {
       // Fetching stories with pagination parameters
       const stories = await fetchStories({ page: 1, limit: 10 });
       // If there are stories, update the state with the fetched data
       if ((stories?.data ?? []).length) setUserStories(stories.data);
-    })();
-  }, []); // Empty dependency array means this effect runs once on component mount
+    };
+
+    getStories();
+  }, []);
 
   return (
     <div className="items-between flex w-full flex-col backdrop-blur-sm">

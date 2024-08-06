@@ -1,20 +1,16 @@
-import React, { MouseEvent, useEffect, useState } from 'react';
+import React, { MouseEvent, useCallback, useEffect, useState } from 'react';
 import { ReactSVG } from 'react-svg';
 import { useTimer } from 'react-timer-hook';
 import { AnimatePresence, motion } from 'framer-motion';
 
 import { AnimationConfig, AppConfig, AssetsConfig } from '@/constants';
+import { IUserData } from '@/interfaces';
 
 import { ImageShimmer } from './ImageShimmer';
 import { ProgressBar } from './ProgressBar';
 
-interface Story {
-  id: string;
-  url: string;
-}
-
 interface IStoryOverlayProps {
-  stories: Story[];
+  stories: IUserData['stories'];
   currentIndex: number;
   currentUserIndex: number;
   setCurrentIndex: (index: number) => void;
@@ -55,15 +51,18 @@ export const StoryOverlay = ({
   });
 
   // Handle tap events for navigation
-  const handleTap = (e: MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    if (x < rect.width * 0.2) {
-      onPrev(); // Previous story if tap is on the left side
-    } else if (x > rect.width * 0.8) {
-      onNext(); // Next story if tap is on the right side
-    }
-  };
+  const handleTap = useCallback(
+    (e: MouseEvent<HTMLDivElement>) => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      if (x < rect.width * 0.2) {
+        onPrev(); // Previous story if tap is on the left side
+      } else if (x > rect.width * 0.8) {
+        onNext(); // Next story if tap is on the right side
+      }
+    },
+    [onPrev, onNext],
+  );
 
   useEffect(() => {
     setStoryLoaded(false); // Reset story loaded state when index changes
@@ -119,7 +118,7 @@ export const StoryOverlay = ({
               <div
                 data-testid={['overlay-inner', currentUserIndex, currentIndex].join('_')}
                 className="relative flex h-full w-full items-center justify-center"
-                onClick={handleTap}
+                onClick={hasStoryLoaded ? handleTap : undefined}
               >
                 <ImageShimmer
                   fill

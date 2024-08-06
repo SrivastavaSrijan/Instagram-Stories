@@ -67,4 +67,12 @@ export const AnimationConfig = {
       },
     },
   },
+  onProgressElapsed: {
+    full: {
+      width: '100%',
+    },
+    empty: {
+      width: '0%',
+    },
+  },
 };

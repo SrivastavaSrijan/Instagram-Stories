@@ -1,14 +1,7 @@
 import { useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 
-const variants = {
-  full: {
-    width: '100%',
-  },
-  empty: {
-    width: '0%',
-  },
-};
+import { AnimationConfig } from '@/constants';
 
 interface IProgressBarProps {
   duration: number;
@@ -30,7 +23,7 @@ export const ProgressBar = ({ duration, isActive }: IProgressBarProps) => {
     <div className="bg-white/50">
       <motion.div
         animate={animate}
-        variants={variants}
+        variants={AnimationConfig.onProgressElapsed}
         initial="empty"
         transition={{
           duration: isActive ? duration : 0,
