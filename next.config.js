@@ -4,7 +4,7 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     outputFileTracingIncludes: {
-      '/api/home': path.join(__dirname, 'public/**/*'),
+      '/api/home': [path.join(__dirname, 'public/**/*')],
     },
   },
 };
